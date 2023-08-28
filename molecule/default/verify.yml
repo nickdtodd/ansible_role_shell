@@ -1,0 +1,31 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: true
+  tasks:
+  
+  - name: Ensure check for shell
+    ansible.builtin.shell: "which {{ nt_shell_name }}"
+    become: true
+    register: shell_status
+
+  - name: Ensure shell is installed
+    assert:
+      that:
+        - shell_status.failed == false
+    become_user: "{{ ansible_user }}"
+
+  - name: Assert function can be called
+    ansible.builtin.stat:
+      path: "{{ nt_shell_scripts_path }}/echo_hello.fish"
+    register: stat
+    become_user: "{{ ansible_user }}"
+
+  - name: Assert command output
+    assert:
+      that:
+        - stat.stat.exists is true
+        - stat.stat.gr_name == "{{ ansible_user }}"
+        - stat.stat.pw_name == "{{ ansible_user }}"

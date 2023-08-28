@@ -1,0 +1,25 @@
+---
+
+- name: Include Ubuntu tasks
+  ansible.builtin.include_tasks: ubuntu.yaml
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install shell
+  ansible.builtin.package:
+    name: "{{ nt_shell_name }}"
+    state: present
+  become: true
+
+- name: Persist commands
+  ansible.builtin.blockinfile:
+    path: "{{ nt_shell_scripts_path }}/{{ item.path }}"
+    create: true
+    block: "{{ item.content }}"
+  loop: "{{ nt_shell_scripts }}"
+  become_user: "{{ ansible_user }}"
+
+- name: Change shell
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    shell: "/usr/bin/fish"
+  become: true

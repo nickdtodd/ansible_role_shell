@@ -1,0 +1,34 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: ubuntu
+    image: nickdtodd/ansible-user-image:1.0
+    pre_build_image: True
+provisioner:
+  name: ansible
+  config_options:
+    defaults:
+      become_user: nick
+  inventory:
+    host_vars:
+      ubuntu:
+        ansible_user: nick
+        nt_shell_name: fish
+        nt_shell_scripts_path: "~/.config/fish/functions"
+        nt_shell_scripts:
+          - name: echo_hello
+            path: "echo_hello.fish"
+            expectation: "Hello"
+            content: |
+              function echo_hello --description 'Just echos hello'
+                echo "Hello"
+              end
+verifier:
+  name: ansible
+  options:
+    gather_facts: true
+    sudo: true
+# lint: ansible-lint .

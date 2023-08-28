@@ -1,0 +1,4 @@
+---
+- name: Install fish shell
+  ansible.builtin.include_tasks: fish.yaml
+  when: nt_shell_name == "fish"

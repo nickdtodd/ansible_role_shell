@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+  connection: local
+  gather_facts: true
+  tasks:
+    - name: "Include nickdtodd.ansible_role_shell"
+      include_role:
+        name: "nickdtodd.ansible_role_shell"

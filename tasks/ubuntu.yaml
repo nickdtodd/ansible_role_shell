@@ -1,0 +1,7 @@
+---
+- name: Add fish apt key
+  ansible.builtin.apt_repository:
+    repo: ppa:fish-shell/release-3
+    state: present
+  when:  nt_shell_name == "fish"
+  become: true

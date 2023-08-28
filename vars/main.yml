@@ -1,0 +1,4 @@
+---
+nt_shell_name: fish
+nt_shell_scripts_path: "~/.config/fish/functions"
+nt_shell_scripts: []

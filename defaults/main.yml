@@ -1,0 +1,3 @@
+---
+# defaults file for ansible_role_shell
+nt_shell_name: fish
